@@ -1,0 +1,20 @@
+{
+  "name": "bubbablox-web",
+  "version": "1.1.0",
+  "private": true,
+  "engines": { "node": "20.x" },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "setup:debian": "bash setup-debian.sh"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jose": "^5.9.6",
+    "next": "14.2.18",
+    "pg": "^8.13.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}
