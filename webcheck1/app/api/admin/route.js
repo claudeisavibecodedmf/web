@@ -76,6 +76,11 @@ export async function POST(req) {
         case 'addItem':
           if (!str(b.name) || !str(b.kind, 30)) return bad('Item name and type are required.');
           await sql`INSERT INTO items (name, kind, price) VALUES (${str(b.name)}, ${str(b.kind, 30)}, ${int(b.price || 0)})`; break;
+        case 'setValue': {
+          const v = b.value === '' || b.value == null ? null : int(b.value);
+          if (v !== null && Number.isNaN(Number(b.value))) return bad('Value must be a number.');
+          await sql`UPDATE items SET value = ${v} WHERE id = ${id}`; break;
+        }
         case 'deleteItem': await sql`DELETE FROM items WHERE id = ${id}`; break;
         default: return bad('Unknown action.');
       }

@@ -35,6 +35,11 @@ async function init() {
     id SERIAL PRIMARY KEY, user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     item_id INT NOT NULL REFERENCES items(id) ON DELETE CASCADE, acquired_at TIMESTAMPTZ DEFAULT now())`;
   await sql`CREATE INDEX IF NOT EXISTS user_items_user ON user_items(user_id)`;
+  await sql`ALTER TABLE items ADD COLUMN IF NOT EXISTS value INT`;
+  await sql`ALTER TABLE user_items ADD COLUMN IF NOT EXISTS sale_price INT`;
+  await sql`CREATE TABLE IF NOT EXISTS item_sales (
+    id SERIAL PRIMARY KEY, item_id INT NOT NULL REFERENCES items(id) ON DELETE CASCADE,
+    price INT NOT NULL, created_at TIMESTAMPTZ DEFAULT now())`;
   await sql`CREATE TABLE IF NOT EXISTS trades (
     id SERIAL PRIMARY KEY,
     sender_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,

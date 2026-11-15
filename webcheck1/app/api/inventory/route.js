@@ -15,7 +15,7 @@ export async function GET(req) {
       if (!u) return Response.json({ error: 'User not found.' }, { status: 404 });
       uid = u.id;
     }
-    const items = await sql`SELECT ui.id, i.name, i.kind FROM user_items ui JOIN items i ON i.id = ui.item_id WHERE ui.user_id = ${uid} ORDER BY ui.id`;
+    const items = await sql`SELECT ui.id, i.name, i.kind, i.value, ui.sale_price, (SELECT round(avg(price))::int FROM (SELECT price FROM item_sales WHERE item_id = i.id ORDER BY id DESC LIMIT 10) s) AS rap FROM user_items ui JOIN items i ON i.id = ui.item_id WHERE ui.user_id = ${uid} ORDER BY ui.id`;
     return Response.json({ items });
   } catch (e) { return serverError(e); }
 }

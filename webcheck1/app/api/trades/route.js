@@ -80,8 +80,8 @@ export async function POST(req) {
         const c = await q`SELECT id FROM user_items WHERE user_id = ${t.receiver_id} AND id = ANY(${t.request_items}) FOR UPDATE`;
         if (a.length !== t.offer_items.length || c.length !== t.request_items.length)
           throw new UserError('Some items in this trade are no longer owned by the original owner.');
-        await q`UPDATE user_items SET user_id = ${t.receiver_id} WHERE id = ANY(${t.offer_items})`;
-        await q`UPDATE user_items SET user_id = ${t.sender_id} WHERE id = ANY(${t.request_items})`;
+        await q`UPDATE user_items SET sale_price = NULL, user_id = ${t.receiver_id} WHERE id = ANY(${t.offer_items})`;
+        await q`UPDATE user_items SET sale_price = NULL, user_id = ${t.sender_id} WHERE id = ANY(${t.request_items})`;
         await q`UPDATE users SET robux = robux - ${t.offer_robux} + ${t.request_robux} WHERE id = ${t.sender_id}`;
         await q`UPDATE users SET robux = robux + ${t.offer_robux} - ${t.request_robux} WHERE id = ${t.receiver_id}`;
         await q`UPDATE trades SET status = 'accepted' WHERE id = ${t.id}`;

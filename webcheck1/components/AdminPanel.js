@@ -105,11 +105,11 @@ export default function AdminPanel() {
           </form>
           <div className="scroll card">
             <table>
-              <thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Price</th><th></th></tr></thead>
+              <thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Price</th><th>Value</th><th></th></tr></thead>
               <tbody>
                 {data.items.map((i) => (
-                  <tr key={i.id}><td>{i.id}</td><td>{i.name}</td><td>{i.kind}</td><td>{i.price}</td>
-                    <td><button className="btn" onClick={() => confirm('Delete ' + i.name + '?') && act('deleteItem', { id: i.id })}>Delete</button></td></tr>
+                  <tr key={i.id}><td>{i.id}</td><td>{i.name}</td><td>{i.kind}</td><td>{i.price}</td><td>{i.value ?? '-'}</td>
+                    <td className="acts"><button className="btn" onClick={() => { const v = prompt('Value in R$ for ' + i.name + ' (blank = none)', i.value ?? ''); if (v !== null) act('setValue', { id: i.id, value: v }); }}>Set value</button> <button className="btn" onClick={() => confirm('Delete ' + i.name + '?') && act('deleteItem', { id: i.id })}>Delete</button></td></tr>
                 ))}
               </tbody>
             </table>

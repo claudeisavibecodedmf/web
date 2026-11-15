@@ -11,6 +11,7 @@ export default async function Header() {
         <nav>
           <Link href="/games">Games</Link>
           <Link href="/catalog">Catalog</Link>
+          <Link href="/values">Values</Link>
           {user && <Link href="/inventory">Inventory</Link>}
           {user && <Link href="/trade">Trade</Link>}
           {user?.is_owner && <Link href="/admin">Admin</Link>}
